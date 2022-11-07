@@ -2,11 +2,18 @@ ocean = create_ocean_instance()
 alice_wallet = create_alice_wallet(ocean) #you're Alice
 
 from helper import *
+from prophet import Prophet
 
 ###### ML MODEL ##########
 #get predicted ETH values
-mean, stddev = 1300, 25.0
-pred_vals = list(np.random.normal(loc=mean, scale=stddev, size=(12,)))
+import pandas as pd
+data = pd.DataFrame({"ds": dts, "y": allcex_vals})
+
+train_data = data.iloc[944:,:]
+test_data = data.iloc[-12:,:]
+
+model = Prophet()
+model.fit(train_data)
 
 
 ###### CALCULATE NMSE ##########
